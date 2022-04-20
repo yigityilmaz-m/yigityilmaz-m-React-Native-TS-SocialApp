@@ -14,15 +14,15 @@ const Menu: React.FC<Props> = () => {
       <Text style={Gstyles.screenTitle}>Navigation</Text>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('ExploreStack');
+          navigation.navigate('HomeStack');
         }}>
-        <Text style={Gstyles.text}>Explore</Text>
+        <Text style={Gstyles.text}>Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('RestaurantsStack');
+          navigation.navigate('ExploreStack');
         }}>
-        <Text style={Gstyles.text}>Restaurants</Text>
+        <Text style={Gstyles.text}>Explore</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {

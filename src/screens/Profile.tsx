@@ -8,13 +8,16 @@ import {
 import React from 'react';
 import Gstyles from '../GlobalStyles';
 import Menu from './components/Menu';
-type Props = {};
+import {StackScreenProps} from '@react-navigation/stack';
+import {StackParams} from '../../src/navigation/Navigation';
 
-const Profile = (props: Props) => {
+type Props = StackScreenProps<StackParams, 'Profile'>;
+
+const Profile = ({navigation, route}: Props) => {
   return (
     <View>
       <Text style={Gstyles.screenTitle}>Profile</Text>
-      <Text>Name: Yigit Yilmaz</Text>
+      <Text>Name: {route.params?.name}</Text>
       <TouchableOpacity>
         <Text>Edit Profile</Text>
       </TouchableOpacity>

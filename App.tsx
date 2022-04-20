@@ -7,48 +7,42 @@
  */
 
 import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import Profile from './src/screens/Profile';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import RestaurantsStack from './src/navigation/RestaurantsStack';
-import ExploreStack from './src/navigation/ExploreStack';
+import ExploreStack from './src/navigation/FeedStack.tsx/ExploreStack';
+import HomeStack from './src/navigation/FeedStack.tsx/HomeStack';
+import {Provider} from 'react-redux';
+import store from './src/store';
+import {Swipeable} from 'react-native-gesture-handler';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Navigation from './src/navigation/Navigation';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import Home from './src/screens/Home';
+import Messages from './src/screens/Messages';
 
-export type StackParams = {
-  ExploreStack: any;
-  RestaurantsStack: any;
-  Profile: any;
-};
-
-const Stack = createBottomTabNavigator<StackParams>();
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  const Tab = createMaterialTopTabNavigator();
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.dark : Colors.light,
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="RestaurantsStack">
-        <Stack.Screen
-          name="ExploreStack"
-          component={ExploreStack}
-          options={{headerTitleAlign: 'center'}}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{headerTitleAlign: 'center'}}
-        />
-        <Stack.Screen
-          name="RestaurantsStack"
-          component={RestaurantsStack}
-          options={{headerTitleAlign: 'center'}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName="Navigation" tabBar={() => null}>
+          <Tab.Screen name="Navigation" component={Navigation} />
+          <Tab.Screen name="Messages" component={Messages} />
+          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

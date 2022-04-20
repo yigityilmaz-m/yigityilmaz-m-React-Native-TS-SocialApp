@@ -1,10 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import { RStackParams } from '../navigation/RestaurantsStack';
+import {EStackParams} from '../navigation/FeedStack.tsx/ExploreStack';
 
-
-type Props = StackScreenProps<RStackParams, "Restaurant">;
+type Props = StackScreenProps<EStackParams, 'Restaurant'>;
 
 const Restaurant = ({route}: Props) => {
   return (
