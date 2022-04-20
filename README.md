@@ -1,1 +1,1 @@
-# yigityilmaz-m-React-Native-TS-SocialApp
+# React-Native-TS-SocialApp
