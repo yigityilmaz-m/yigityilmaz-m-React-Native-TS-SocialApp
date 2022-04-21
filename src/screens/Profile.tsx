@@ -9,7 +9,8 @@ import React from 'react';
 import Gstyles from '../GlobalStyles';
 import Menu from './components/Menu';
 import {StackScreenProps} from '@react-navigation/stack';
-import {StackParams} from '../../src/navigation/Navigation';
+import { StackParams } from '../../App';
+
 
 type Props = StackScreenProps<StackParams, 'Profile'>;
 

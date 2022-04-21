@@ -4,17 +4,19 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Restaurant from '../../screens/Restaurant';
 import Home from '../../screens/Home';
 import Profile from '../../screens/Profile';
+import ProfileStack from './ProfileStack';
+import Camera from '../../screens/Camera';
 
 type Props = {};
 export type HStackParams = {
   Home: undefined;
-  Profile: {name: string};
+  ProfileStack: {name: string};
 };
 const HomeStack = (props: Props) => {
   const HStack = createStackNavigator<HStackParams>();
 
   return (
-    <HStack.Navigator>
+    <HStack.Navigator initialRouteName="Home">
       <HStack.Screen
         name="Home"
         component={Home}
@@ -23,8 +25,8 @@ const HomeStack = (props: Props) => {
           headerTintColor: 'white',
         }}></HStack.Screen>
       <HStack.Screen
-        name="Profile"
-        component={Profile}
+        name="ProfileStack"
+        component={ProfileStack}
         options={{headerStyle: {backgroundColor: 'black'}}}></HStack.Screen>
     </HStack.Navigator>
   );

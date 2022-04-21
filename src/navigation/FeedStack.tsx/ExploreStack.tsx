@@ -3,11 +3,12 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Explore from '../../screens/Explore';
 import Restaurant from '../../screens/Restaurant';
+import Post from '../../screens/Post';
 
 type Props = {};
 export type EStackParams = {
   Explore: undefined;
-  Restaurant: {name: string};
+  Post: {Id: string};
 };
 const ExploreStack = (props: Props) => {
   const RStack = createStackNavigator<EStackParams>();
@@ -16,6 +17,13 @@ const ExploreStack = (props: Props) => {
       <RStack.Screen
         name="Explore"
         component={Explore}
+        options={{
+          headerStyle: {backgroundColor: 'black'},
+          headerTintColor: 'white',
+        }}></RStack.Screen>
+      <RStack.Screen
+        name="Post"
+        component={Post}
         options={{
           headerStyle: {backgroundColor: 'black'},
           headerTintColor: 'white',

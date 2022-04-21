@@ -11,6 +11,8 @@ import {getUser, setLoading} from '../store/actions/usersActions';
 import {ThunkDispatch} from 'redux-thunk';
 import {RootState} from '../store';
 import {User, UserAction, UserData, UserState} from '../store/types';
+import PostCard from './components/PostCard';
+import {ScrollView} from 'react-native-gesture-handler';
 
 type Props = StackScreenProps<HStackParams, 'Home'>;
 
@@ -28,24 +30,20 @@ const Home = ({navigation}: Props) => {
     if (isFocused == true) {
       dispatch(getUser());
     }
-  }, [isFocused]);
+  }, []);
 
   return (
-    <View>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        data?.results.map((user: User, idx: number) => {
-          return (
-            <View key={idx}>
-              <Text>
-                {user.name.first} {user.name.last} {user.gender}
-              </Text>
-            </View>
-          );
-        })
-      )}
-      <Menu />
+    <View style={{flex: 1, backgroundColor: 'black'}}>
+      <ScrollView>
+        {loading ? (
+          <Text style={{color: 'white'}}>Loading...</Text>
+        ) : (
+          data?.results.map((user: User, idx: number) => {
+            return <PostCard user={user} idx={idx}></PostCard>;
+          })
+        )}
+       
+      </ScrollView>
     </View>
   );
 };

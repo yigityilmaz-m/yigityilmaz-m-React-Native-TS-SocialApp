@@ -12,6 +12,11 @@ export interface User {
     first: string;
     last: string;
   };
+  picture: {
+    large: string;
+    medium: string;
+    thumbnail: string;
+  };
 }
 
 export interface UserData {
@@ -38,5 +43,3 @@ export interface SetLoadingAction {
 }
 
 export type UserAction = GetUserAction | SetLoadingAction;
-
-
