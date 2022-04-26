@@ -1,22 +1,24 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
-import Menu from './components/Menu';
-import Gstyles from '../GlobalStyles';
+import {RefreshControl, StyleSheet, Text, View, ScrollView} from 'react-native';
+import React, {Key, useEffect, useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {HStackParams} from '../navigation/FeedStack.tsx/HomeStack';
+import {HStackParams} from '../navigation/HomeStack';
 import {useDispatch, useSelector} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {useIsFocused} from '@react-navigation/native';
 import {getUser, setLoading} from '../store/actions/usersActions';
 import {ThunkDispatch} from 'redux-thunk';
 import {RootState} from '../store';
-import {User, UserAction, UserData, UserState} from '../store/types';
+import {User, UserAction, UserData} from '../store/types';
 import PostCard from './components/PostCard';
-import {ScrollView} from 'react-native-gesture-handler';
 
 type Props = StackScreenProps<HStackParams, 'Home'>;
 
+const wait = (timeout: number) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
 const Home = ({navigation}: Props) => {
+  const [refreshing, setRefreshing] = useState(false);
+
   const dispatch: ThunkDispatch<RootState, null, UserAction> = useDispatch();
   const isFocused = useIsFocused();
 
@@ -32,22 +34,40 @@ const Home = ({navigation}: Props) => {
     }
   }, []);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getUser());
+    setRefreshing(false);
+  };
+
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
-      <ScrollView>
-        {loading ? (
-          <Text style={{color: 'white'}}>Loading...</Text>
-        ) : (
-          data?.results.map((user: User, idx: number) => {
-            return <PostCard user={user} idx={idx}></PostCard>;
-          })
-        )}
-       
-      </ScrollView>
-    </View>
+    <ScrollView
+      style={styles.body}
+      // contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['black']}
+        />
+      }>
+      {data?.results.map((user: User, index: Key) => {
+        return (
+          <View key={index}>
+            <PostCard user={user} />
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 
-export default Home;
+const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black',
+  },
+});
 
-const styles = StyleSheet.create({});
+export default Home;
