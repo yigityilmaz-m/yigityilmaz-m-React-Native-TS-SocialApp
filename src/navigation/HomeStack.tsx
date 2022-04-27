@@ -6,17 +6,20 @@ import Home from '../screens/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import {SwipeStackParams} from './SwipeNavigation';
+
 import {User} from '../store/types';
 import Profile from '../screens/Profile';
 import Post from '../screens/Post';
-type Props = StackScreenProps<SwipeStackParams, 'HomeStack'>;
+import {StackParams} from '../App';
+
 export type HStackParams = {
   Home: undefined;
   Profile: {user: User};
   Post: {user: User};
+  navigation: StackScreenProps<StackParams, 'HomeStack'>;
 };
-const HomeStack = ({navigation}: Props) => {
+
+const HomeStack = ({navigation}: HStackParams) => {
   const HStack = createStackNavigator<HStackParams>();
 
   return (
@@ -44,7 +47,7 @@ const HomeStack = ({navigation}: Props) => {
                 size={25}
                 color="white"
                 onPress={() => {
-                  navigation.navigate('Messages');
+                  // navigation.navigate('Messages');
                 }}></Ionicons>
             </View>
           ),
@@ -53,14 +56,13 @@ const HomeStack = ({navigation}: Props) => {
         name="Profile"
         component={Profile}
         options={{
-          headerStyle: {backgroundColor: 'black'},
-          headerTintColor: 'white',
+          headerShown: false,
         }}
       />
       <HStack.Screen
         name="Post"
         component={Post}
-        options={{headerStyle: {backgroundColor: 'black'}}}
+        options={{headerShown: false}}
       />
     </HStack.Navigator>
   );

@@ -18,7 +18,7 @@ const Post = ({navigation, route}: Props) => {
     <View style={{flex: 1, backgroundColor: 'black'}}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Profile', {user: route.params.user});
+          navigation.push('Profile', {user: route.params.user});
         }}>
         <View
           style={{

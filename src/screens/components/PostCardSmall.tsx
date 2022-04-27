@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HStackParams} from '../../navigation/HomeStack';
+
 type Props = {
   user: User;
   navigation: StackNavigationProp<HStackParams, 'Profile' | 'Post'>;
@@ -13,9 +14,36 @@ type Props = {
 
 const PostCardSmall = ({user, navigation}: Props) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Post', {user})}>
-      <View style={{flex: 1, margin: 10, backgroundColor: 'black'}}>
-        <View
+    <View
+      style={{
+        flex: 1 / 3,
+        aspectRatio: 1,
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <TouchableOpacity onPress={() => navigation.push('Post', {user})}>
+        <View style={{flex: 1, aspectRatio: 1}}>
+          <Image
+            style={{
+              aspectRatio: 1,
+              margin: 0.5,
+            }}
+            source={{
+              uri: user.picture.large,
+            }}></Image>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default PostCardSmall;
+
+const styles = StyleSheet.create({});
+
+{
+  /* <View
           style={{
             flex: 1,
             flexDirection: 'row',
@@ -87,12 +115,5 @@ const PostCardSmall = ({user, navigation}: Props) => {
               color="white"
               style={{marginHorizontal: 5}}></Feather>
           </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-export default PostCardSmall;
-
-const styles = StyleSheet.create({});
+        </View> */
+}

@@ -5,7 +5,7 @@ import {ACTIONS, UserAction, UserData} from '../types';
 
 export const getUser = (): ThunkAction<void, RootState, null, UserAction> => {
   return async dispatch => {
-    const url = `https://randomuser.me/api/?results=10`;
+    const url = `https://randomuser.me/api/?results=20`;
     try {
       let data: UserData = (await axios.get(url)).data;
       dispatch({

@@ -22,15 +22,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import store, {RootState} from './store';
-import SwipeNavigation from './navigation/SwipeNavigation';
+
 import ExploreStack from './navigation/ExploreStack';
 import Profile from './screens/Profile';
 
 import {User, UserData} from './store/types';
 import usersReducer from './store/reducers/usersReducer';
+import HomeStack from './navigation/HomeStack';
 
 export type StackParams = {
-  SwipeNavigation: any;
+  HomeStack: any;
   ExploreStack: any;
   Profile: {user: User};
 };
@@ -47,13 +48,13 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <BottomNav.Navigator
-          initialRouteName="r"
+          initialRouteName="HomeStack"
           screenOptions={{
             tabBarStyle: {backgroundColor: 'black'},
           }}>
           <BottomNav.Screen
-            name="SwipeNavigation"
-            component={SwipeNavigation}
+            name="HomeStack"
+            component={HomeStack}
             options={{
               headerTitleAlign: 'center',
               headerShown: false,

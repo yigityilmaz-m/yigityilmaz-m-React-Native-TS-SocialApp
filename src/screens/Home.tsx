@@ -56,11 +56,14 @@ const Home = ({navigation}: Props) => {
     dispatch(getUser());
     setRefreshing(false);
   };
+  const ref = React.useRef<ScrollView>(null);
+
+  useScrollToTop(ref);
 
   return (
     <ScrollView
+      ref={ref}
       style={Gstyles.container}
-      // contentContainerStyle={styles.scrollView}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}

@@ -11,7 +11,6 @@ import React, {Key, useEffect, useRef} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
-import {SwipeStackParams} from '../navigation/SwipeNavigation';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {User, UserData} from '../store/types';
@@ -49,60 +48,82 @@ const Profile = ({navigation, route}: Props) => {
   );
 
   useScrollToTop(scrollRef);
-  
+
   return (
     <View style={{backgroundColor: 'black'}}>
       <View style={styles.header}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Feather name="lock" color="white" size={10}></Feather>
+        <Ionicons
+          name="chevron-back"
+          color="white"
+          size={25}
+          onPress={() => navigation.pop(1)}></Ionicons>
 
-          <Text style={styles.headerText}>{route.params?.user.name.first}</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', margin: 10}}>
-          <Feather name="plus-square" size={25} color="white"></Feather>
-          <View style={{marginHorizontal: 10}} />
-          <Ionicons
-            name="ios-reorder-three-outline"
-            size={35}
-            color="white"
-            style={{marginTop: -4}}></Ionicons>
-        </View>
+        <Text style={styles.headerText}>
+          {route.params.user.name.first} {route.params.user.name.last}
+        </Text>
+
+        <MaterialCommunityIcons
+          name="dots-horizontal"
+          size={20}
+          color="white"></MaterialCommunityIcons>
       </View>
 
       <FlatList
         data={data?.results}
+        columnWrapperStyle={{flex: 1, justifyContent: 'flex-start'}}
         renderItem={({item}) => (
           <PostCardSmall user={item} navigation={navigation} />
         )}
         keyExtractor={(item, index) => index.toString()}
         ListHeaderComponent={
-          <View>
-            <Image
+          <View style={{margin: 10}}>
+            <View
               style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                marginRight: 10,
-              }}
-              source={{
-                uri: route.params?.user.picture.thumbnail,
-              }}></Image>
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <Image
+                style={{
+                  height: 80,
+                  width: 80,
+                  borderRadius: 40,
+                  marginRight: 10,
+                }}
+                source={{
+                  uri: route.params?.user.picture.large,
+                }}></Image>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <View
+                  style={{
+                    margin: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Text style={styles.messagesText}>112</Text>
+                  <Text style={styles.messagesText}>Posts</Text>
+                </View>
+                <View style={{margin: 5, alignItems: 'center'}}>
+                  <Text style={styles.messagesText}>5,492</Text>
+                  <Text style={styles.messagesText}>Followers</Text>
+                </View>
+                <View style={{margin: 5, alignItems: 'center'}}>
+                  <Text style={styles.messagesText}>4,823</Text>
+                  <Text style={styles.messagesText}>Following</Text>
+                </View>
+              </View>
+              <View></View>
+            </View>
             <Text style={styles.messagesText}>Messages</Text>
-            <TextInput
-              placeholder="  🔎 Search"
-              placeholderTextColor={'grey'}
-              style={styles.TextInput}></TextInput>
           </View>
         }
         ref={scrollRef}
+        numColumns={3}
       />
-      {/* {data?.results.map((user: User, index: Key) => {
-          return (
-            <View key={index}>
-              <PostCardSmall user={user} />
-            </View>
-          );
-        })} */}
     </View>
   );
 };
@@ -112,7 +133,7 @@ export default Profile;
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     backgroundColor: 'black',
     height: 50,
     alignItems: 'center',
@@ -120,14 +141,12 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: 'white',
-    fontWeight: '900',
-    fontSize: 20,
+    fontWeight: '700',
+    fontSize: 15,
   },
   messagesText: {
     color: 'white',
-    fontWeight: 'bold',
     fontSize: 15,
-    marginVertical: 10,
   },
   TextInput: {
     borderRadius: 5,
