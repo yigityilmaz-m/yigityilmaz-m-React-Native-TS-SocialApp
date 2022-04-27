@@ -9,39 +9,38 @@ type Props = {user: User};
 const PostCard = ({user}: Props) => {
   return (
     <View style={{flex: 1, margin: 10, backgroundColor: 'black'}}>
-      <TouchableOpacity>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-            padding: 5,
-          }}>
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                marginRight: 10,
-              }}
-              source={{
-                uri: user.picture.thumbnail,
-              }}></Image>
-            <Text style={{color: 'white'}}>
-              {user.name.first} {user.name.last}
-            </Text>
-          </View>
-          <View style={{flex: 1, alignItems: 'flex-end'}}>
-            <MaterialCommunityIcons
-              name="dots-horizontal"
-              size={20}
-              color="white"></MaterialCommunityIcons>
-          </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginVertical: 5,
+          padding: 5,
+        }}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            style={{
+              height: 40,
+              width: 40,
+              borderRadius: 20,
+              marginRight: 10,
+            }}
+            source={{
+              uri: user.picture.thumbnail,
+            }}></Image>
+          <Text style={{color: 'white'}}>
+            {user.name.first} {user.name.last}
+          </Text>
         </View>
-      </TouchableOpacity>
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <MaterialCommunityIcons
+            name="dots-horizontal"
+            size={20}
+            color="white"></MaterialCommunityIcons>
+        </View>
+      </View>
+
       <View style={{flex: 1}}>
         <Image
           style={{

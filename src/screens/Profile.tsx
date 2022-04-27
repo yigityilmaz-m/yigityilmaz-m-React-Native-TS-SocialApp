@@ -5,11 +5,12 @@ import {
   View,
   ScrollView,
   Image,
+  FlatList,
 } from 'react-native';
-import React, {Key} from 'react';
+import React, {Key, useEffect, useRef} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {StackScreenProps} from '@react-navigation/stack';
+import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
 import {SwipeStackParams} from '../navigation/SwipeNavigation';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
@@ -17,24 +18,45 @@ import {User, UserData} from '../store/types';
 import PostCard from './components/PostCard';
 import Feather from 'react-native-vector-icons/Feather';
 import {HStackParams} from '../navigation/HomeStack';
-import {PStackParams} from '../navigation/ProfileStack';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  RouteProp,
+  useIsFocused,
+  useScrollToTop,
+} from '@react-navigation/native';
+import PostCardSmall from './components/PostCardSmall';
 
-type Props = StackScreenProps<PStackParams, 'Profile'>;
+// const isFocused = useIsFocused();
+// const scrollRef = useRef<ScrollView>(null);
 
-const Profile = ({}: Props, user: User) => {
-  
+export interface Props {
+  navigation: StackNavigationProp<HStackParams, 'Profile'>;
+  route: RouteProp<HStackParams, 'Profile'>;
+}
+
+const Profile = ({navigation, route}: Props) => {
+  const isFocused = useIsFocused();
+  const scrollRef = useRef<FlatList>(null);
+  useEffect(() => {
+    if (isFocused) {
+      scrollRef.current?.scrollToOffset({animated: true, offset: 0});
+    }
+  }, [isFocused]);
+
   const data = useSelector<RootState, UserData | null>(
     state => state.user.data,
   );
 
+  useScrollToTop(scrollRef);
+  
   return (
     <View style={{backgroundColor: 'black'}}>
       <View style={styles.header}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Feather name="lock" color="white" size={10}></Feather>
 
-          <Text style={styles.headerText}> UserName</Text>
+          <Text style={styles.headerText}>{route.params?.user.name.first}</Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center', margin: 10}}>
           <Feather name="plus-square" size={25} color="white"></Feather>
@@ -46,30 +68,41 @@ const Profile = ({}: Props, user: User) => {
             style={{marginTop: -4}}></Ionicons>
         </View>
       </View>
-      {/* <ScrollView style={{margin: 10}}>
-        <Image
-          style={{
-            height: 40,
-            width: 40,
-            borderRadius: 20,
-            marginRight: 10,
-          }}
-          source={{
-            uri: user.picture.thumbnail,
-          }}></Image>
-        <Text style={styles.messagesText}>Messages</Text>
-        <TextInput
-          placeholder="  🔎 Search"
-          placeholderTextColor={'grey'}
-          style={styles.TextInput}></TextInput>
-        {data?.results.map((user: User, index: Key) => {
+
+      <FlatList
+        data={data?.results}
+        renderItem={({item}) => (
+          <PostCardSmall user={item} navigation={navigation} />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        ListHeaderComponent={
+          <View>
+            <Image
+              style={{
+                height: 40,
+                width: 40,
+                borderRadius: 20,
+                marginRight: 10,
+              }}
+              source={{
+                uri: route.params?.user.picture.thumbnail,
+              }}></Image>
+            <Text style={styles.messagesText}>Messages</Text>
+            <TextInput
+              placeholder="  🔎 Search"
+              placeholderTextColor={'grey'}
+              style={styles.TextInput}></TextInput>
+          </View>
+        }
+        ref={scrollRef}
+      />
+      {/* {data?.results.map((user: User, index: Key) => {
           return (
             <View key={index}>
-              <PostCard user={user} />
+              <PostCardSmall user={user} />
             </View>
           );
-        })}
-      </ScrollView> */}
+        })} */}
     </View>
   );
 };

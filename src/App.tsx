@@ -9,38 +9,45 @@
 import React from 'react';
 import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import store from './store';
+import store, {RootState} from './store';
 import SwipeNavigation from './navigation/SwipeNavigation';
 import ExploreStack from './navigation/ExploreStack';
 import Profile from './screens/Profile';
-import ProfileStack from './navigation/ProfileStack';
+
+import {User, UserData} from './store/types';
+import usersReducer from './store/reducers/usersReducer';
 
 export type StackParams = {
   SwipeNavigation: any;
   ExploreStack: any;
-  Profile: any;
+  Profile: {user: User};
 };
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.dark : Colors.light,
   };
+
   const BottomNav = createBottomTabNavigator<StackParams>();
   return (
     <Provider store={store}>
       <NavigationContainer>
         <BottomNav.Navigator
-          initialRouteName="SwipeNavigation"
+          initialRouteName="r"
           screenOptions={{
             tabBarStyle: {backgroundColor: 'black'},
           }}>
@@ -59,7 +66,12 @@ const App = () => {
                     color={'white'}
                   />
                 ) : (
-                  <Octicons name="home" size={21} color={'white'} />
+                  <Octicons
+                    name="home"
+                    size={21}
+                    color={'white'}
+                    // onPress={() => {}}
+                  />
                 ),
             }}
           />
@@ -85,7 +97,7 @@ const App = () => {
           />
           <BottomNav.Screen
             name="Profile"
-            component={ProfileStack}
+            component={Profile}
             options={{
               headerTitleAlign: 'center',
               headerShown: false,

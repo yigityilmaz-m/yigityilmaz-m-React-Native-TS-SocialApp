@@ -21,6 +21,7 @@ const SwipeNavigation = ({}:Props) => {
   const Tab = createMaterialTopTabNavigator();
   const navigation = useNavigation();
   const route = useRoute();
+  
   // useLayoutEffect(() => {
   //   const routeName = getFocusedRouteNameFromRoute(route);
   //   if (routeName !== 'HomeStack') {
